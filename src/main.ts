@@ -6,7 +6,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as bodyParser from 'body-parser';
 import { AllExceptionsFilter } from './shared/error/all-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
-
+import * as dotenv from 'dotenv';
+dotenv.config();
 async function bootstrap() {
   const port: number = parseInt(process.env.HTTP_PORT) || 3001;
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
