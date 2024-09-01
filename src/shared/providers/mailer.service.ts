@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import nodemailer from 'nodemailer';
+import * as nodemailer from 'nodemailer';
 import { google } from 'googleapis';
+
+
+
 @Injectable()
 export class MailerService {
   private CLIENT_ID = process.env.GMAIL_CLIENT_ID;
@@ -44,7 +47,7 @@ export class MailerService {
       service: 'gmail',
       auth: {
         type: 'OAuth2',
-        user: 'hunter982019@gmail.com',
+        user: 'mahkamovabubakir65119@gmail.com',
         clientId: this.CLIENT_ID,
         clientSecret: this.CLIENT_SECRET,
         refreshToken: this.REFRESH_TOKEN,
