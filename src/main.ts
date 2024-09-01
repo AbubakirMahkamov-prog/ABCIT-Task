@@ -6,6 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as bodyParser from 'body-parser';
 import { AllExceptionsFilter } from './shared/error/all-exception.filter';
 import { ValidationPipe } from '@nestjs/common';
+import helmet from 'helmet';
 import * as dotenv from 'dotenv';
 dotenv.config();
 async function bootstrap() {
@@ -14,6 +15,7 @@ async function bootstrap() {
     bufferLogs: true,
     cors: true,
   });
+  app.use(helmet())
   const swaggerDocName = 'ABCIT-Task-api-documentation';
   app.setGlobalPrefix('api');
   app.use(
