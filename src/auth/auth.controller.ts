@@ -2,6 +2,7 @@ import { Body, Controller, Get, HttpException, Param, Post, Redirect } from "@ne
 import { AuthService } from "./auth.service";
 import { ApiBody, ApiTags } from "@nestjs/swagger";
 import { AuthDto, RegisterDto } from "./dto";
+import { successMessage } from '../shared/constants/message-types'
 @ApiTags("auth")
 @Controller("auth")
 export class AuthController {
@@ -28,8 +29,7 @@ export class AuthController {
   // @Redirect("http://localhost:3000", 301)
   @Get("confirm-user-email/:id")
   async confirmUserEmail(@Param("id") id: string){
-      await this.authService.confirmUserEmail(id);
-    return {status: true, message: 'congrats you are now in our team'}
+    await this.authService.confirmUserEmail(id);
+    return successMessage;
   }
-
 }

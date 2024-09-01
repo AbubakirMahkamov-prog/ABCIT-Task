@@ -12,8 +12,7 @@ import bcrypt from 'bcrypt'
 
 @Injectable()
 export class AuthService {
-      private url:string = process.env.HOST_URL;
-      private port: number = parseInt(process.env.HTTP_PORT)
+  private url:string = process.env.HOST_URL;
   constructor(private readonly authRepo: AuthRepo,
               private readonly jwtService: JwtService,
               private readonly mailerService: MailerService) {}
@@ -65,7 +64,7 @@ export class AuthService {
     await this.mailerService.sendMessage(
       email,
       confirmationSubject,
-      confirmationMessage(`${this.url}:${this.port}/api/auth/confirm-candidate-email/${newUser[0]?.id}`
+      confirmationMessage(`${this.url}/api/auth/confirm-user-email/${newUser[0]?.id}`
       ))
     return newUser;
   }
@@ -74,7 +73,7 @@ export class AuthService {
 
   async confirmUserEmail(_id:string){
     const data = {
-      status: UserStatus.VERIFIED
+      is_verified: UserStatus.VERIFIED
     }
     return this.authRepo.updateUserById(_id, data);
   }
