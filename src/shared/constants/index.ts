@@ -1,0 +1,1 @@
+export {confirmationSubject, confirmationMessage} from "./message-types"

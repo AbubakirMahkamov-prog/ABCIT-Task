@@ -15,7 +15,6 @@ export class MailerService {
 
   async sendMessage(to: string, subject: string, message: string) {
     try {
-      console.log(message);
       await this.transporter.sendMail({
         from: '"ABC IT team" <abcit@gmail.com>',
         to: to,

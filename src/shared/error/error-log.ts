@@ -21,7 +21,7 @@ export class ErrorLog extends HttpException {
     this.statusCode = status;
     this.timestamp = new Date().toISOString();
     this.api = requestUrl;
-    this.label = 'CHECK_MOCK_INT_BACKEND';
+    this.label = 'CHECK_ABCIT_BACKEND';
     this.tags = {
       db_id: user?.db_id,
       type: this.errorGroup(this.statusCode),

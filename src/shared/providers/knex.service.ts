@@ -4,7 +4,7 @@ import knex from 'knex';
 @Injectable()
 export class KnexService {
   instance: any;
-
+  
   constructor() {
     this.instance = knex({
       client: 'postgresql',
