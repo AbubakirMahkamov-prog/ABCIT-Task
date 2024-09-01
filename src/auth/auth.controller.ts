@@ -3,7 +3,9 @@ import { AuthService } from "./auth.service";
 import { ApiBody, ApiTags } from "@nestjs/swagger";
 import { AuthDto, RegisterDto } from "./dto";
 import { successMessage } from '../shared/constants/message-types'
-@ApiTags("auth")
+
+
+@ApiTags("Auth")
 @Controller("auth")
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -26,7 +28,6 @@ export class AuthController {
     return this.authService.registerUser(data);
   }
 
-  // @Redirect("http://localhost:3000", 301)
   @Get("confirm-user-email/:id")
   async confirmUserEmail(@Param("id") id: string){
     await this.authService.confirmUserEmail(id);

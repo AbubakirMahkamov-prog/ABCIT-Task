@@ -6,7 +6,7 @@ import { RegisterDto, AuthDto } from "./dto";
 import { MailerService } from "../shared/providers/mailer.service";
 import { confirmationSubject, confirmationMessage}  from "../shared/constants"
 import { UserStatus } from "./enums";
-import bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt'
 
 
 
@@ -25,7 +25,7 @@ export class AuthService {
         throw new HttpException('the user not found', HttpStatus.UNAUTHORIZED);
       }
 
-      if(user.is_verified == UserStatus.UNVERIFIED){
+      if(user.is_verified == UserStatus.UNVERIFIED || !user.is_verified){
         throw new HttpException('please firstly activate your account, than you can login.', HttpStatus.UNAUTHORIZED);
       }
       const isMatch = await bcrypt.compare(password, user.password);
@@ -47,11 +47,11 @@ export class AuthService {
        privateKey: process.env.JWT_SECRET,
      }
    );
-
    return { access_token, user };
   }
   async registerUser(_user: RegisterDto){
     const { email, password } = _user;
+    _user.password = await bcrypt.hash(password, 10)
     const user =  await this.authRepo.getUserByEmail(email);
     if(!_.isUndefined(user)){
       throw new HttpException('this mail already exists', HttpStatus.CONFLICT);
