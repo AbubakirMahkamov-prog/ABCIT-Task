@@ -10,3 +10,11 @@ export class UserNotFoundException extends HttpException{
       HttpStatus.NOT_FOUND);
   }
 }
+
+export class RecordBelongsToOthers extends HttpException {
+  constructor() {
+    super({
+        code: `${ERROR_PREFIX}${ErrorCodes.YOU_HAVE_NOT_PERMISSION}`, description: `RECORD BELONGS TO OTHERS`},
+      HttpStatus.FORBIDDEN);
+  }
+}
