@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpException, Param, Post, Req, Redirect, UseGuards, Patch } from "@nestjs/common";
 import { PublicationService } from "./publication.service";
 import { ApiBody, ApiTags } from "@nestjs/swagger";
-import { PublicationDto, CommentDto, EditCommentDto } from "./dto";
+import { PublicationDto, CommentDto, EditCommentDto, LikeDto } from "./dto";
 import { AuthorizationGuard } from '../shared/guards/authorization.guard'
 import type { 
     Request
@@ -50,12 +50,14 @@ export class PublicationController {
   }
 
   @ApiBody({
-    type: EditCommentDto,
-    description: "Edit comment",
+    type: LikeDto,
+    description: "Toogle like",
   })
   @UseGuards(AuthorizationGuard)
-  @Patch("/comment/:id")
-  async editComment(@Body() data: EditCommentDto, @Param('id') id: string, @Req() request: Request) {
-    return this.publicationService.editComment(data, id, request);
+  @Post("/toogle-like")
+  async toogleLike(@Body() data: LikeDto, @Req() request: Request) {
+    return this.publicationService.toogleLike(data, request);
   }
+  
+
 }

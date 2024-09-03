@@ -38,4 +38,12 @@ export class PublicationService {
     return this.publicationRepo.editComment(data, id);
   }
 
+    async toogleLike(data: { publication_id: string }, request: any) {
+        const currentUser = request.currentUser;
+        const like = await this.publicationRepo.getLike({ publication_id: data.publication_id, user_id: currentUser.id });
+        if (!like || like.length == 0) {
+            return this.publicationRepo.addLike({ publication_id: data.publication_id, user_id: currentUser.id });
+        }
+        return this.publicationRepo.removeLike({ publication_id: data.publication_id, user_id: currentUser.id });
+    }
 }

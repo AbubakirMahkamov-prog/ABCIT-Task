@@ -25,9 +25,9 @@ export class AuthService {
         throw new HttpException('the user not found', HttpStatus.UNAUTHORIZED);
       }
 
-      if(user.is_verified == UserStatus.UNVERIFIED || !user.is_verified){
-        throw new HttpException('please firstly activate your account, than you can login.', HttpStatus.UNAUTHORIZED);
-      }
+      // if(user.is_verified == UserStatus.UNVERIFIED || !user.is_verified){
+      //   throw new HttpException('please firstly activate your account, than you can login.', HttpStatus.UNAUTHORIZED);
+      // }
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
         throw new HttpException("Password didn't match", HttpStatus.UNAUTHORIZED);

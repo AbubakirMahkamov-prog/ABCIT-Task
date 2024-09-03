@@ -25,8 +25,9 @@ export class AuthorizationGuard implements CanActivate {
     const decoded_token = await this.jwtService.decode(access_token);
     if (!decoded_token) {
       throw new UnauthorizedException();
-      }
-      request.currentUser = decoded_token;
+    }
+
+    request.currentUser = decoded_token;
     return true;
   }
 }
