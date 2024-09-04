@@ -42,8 +42,24 @@ export class PublicationService {
         const currentUser = request.currentUser;
         const like = await this.publicationRepo.getLike({ publication_id: data.publication_id, user_id: currentUser.id });
         if (!like || like.length == 0) {
-            return this.publicationRepo.addLike({ publication_id: data.publication_id, user_id: currentUser.id });
+            try {
+              await this.publicationRepo.addLike({ publication_id: data.publication_id, user_id: currentUser.id });
+              return {
+                message: "Liked was successfully",
+                publication_id: data.publication_id,
+              }
+            } catch(err) {
+              return err;
+            }
         }
-        return this.publicationRepo.removeLike({ publication_id: data.publication_id, user_id: currentUser.id });
+        try {
+          await this.publicationRepo.removeLike({ publication_id: data.publication_id, user_id: currentUser.id });
+            return {
+                message: "Like was removed successfully",
+                publication_id: data.publication_id,
+              }
+        } catch (err) {
+          return err;
+        }
     }
 }

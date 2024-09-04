@@ -33,8 +33,10 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth(
       {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT', // optional, it just specifies the format of the token
         name: 'authorization',
-        type: 'apiKey',
         in: 'header',
       },
       'authorization',
@@ -45,6 +47,8 @@ async function bootstrap() {
     swaggerOptions: {
       persistAuthorization: true,
     },
+    customSiteTitle: 'My API Docs',
+      
   });
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(httpAdapter));

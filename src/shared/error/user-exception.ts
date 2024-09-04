@@ -11,6 +11,15 @@ export class UserNotFoundException extends HttpException{
   }
 }
 
+
+export class PleaseVerify extends HttpException {
+  constructor() {
+    super({
+        code: `${ERROR_PREFIX}${ErrorCodes.YOU_HAVE_NOT_PERMISSION}`, description: `PLEASE VERIFY YOUR EMAIL THEN TRY`},
+      HttpStatus.FORBIDDEN);
+  }
+}
+
 export class RecordBelongsToOthers extends HttpException {
   constructor() {
     super({
