@@ -10,6 +10,23 @@ import { RecordBelongsToOthers } from '../shared/error/user-exception'
 export class PublicationService {
   constructor(private readonly publicationRepo: PublicationRepo) {}
   
+  async getPaginatedPublications(page = 1, limit = 10) {
+    const publications = await this.publicationRepo.getPaginatedPosts(page, limit);
+    const total = await this.publicationRepo.getTotalCount();
+    const totalPages = Math.ceil(total.count / limit);
+
+    return {
+      data: publications,
+      pagination: {
+        page,
+        limit,
+        totalPages,
+        totalPublications: parseInt(total.count),
+      },
+    }
+  }
+
+
   async insertPublication(data: PublicationDto, request: any) {
       const currentUser = request.currentUser;
       const newRecord =  await this.publicationRepo.insert({

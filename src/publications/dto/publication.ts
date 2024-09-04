@@ -7,3 +7,11 @@ export class PublicationDto {
 	@ApiProperty()
 	content?: string;
 }
+
+export class PublicationPagenatedDto {
+	@ApiProperty()
+	page?: number
+	
+	@ApiProperty()
+	limit?: number;
+}

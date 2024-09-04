@@ -31,7 +31,7 @@ export class AuthorizationGuard implements CanActivate {
       throw new UnauthorizedException();
     }
     request.currentUser = decoded_token;
-    if (!this.publicForUnverfied.includes(routeName) || !decoded_token.is_verified) {
+    if (!this.publicForUnverfied.includes(routeName) && !decoded_token.is_verified) {
       throw new PleaseVerify();
     }
     return true;

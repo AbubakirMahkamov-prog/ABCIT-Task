@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpException, Param, Post, Req, Redirect, UseGuards, Patch } from "@nestjs/common";
 import { PublicationService } from "./publication.service";
 import { ApiBody, ApiTags } from "@nestjs/swagger";
-import { PublicationDto, CommentDto, EditCommentDto, LikeDto } from "./dto";
+import { PublicationDto, PublicationPagenatedDto , CommentDto, EditCommentDto, LikeDto } from "./dto";
 import { AuthorizationGuard } from '../shared/guards/authorization.guard'
 import { RouteName } from '../shared/guards/specialRoute';
 
@@ -15,6 +15,16 @@ import type {
 export class PublicationController {
   constructor(private readonly publicationService: PublicationService) {}
   
+  @ApiBody({
+    type: PublicationPagenatedDto,
+    description: "Publication as paginated"
+  })
+  @UseGuards(AuthorizationGuard)
+  @Post('/paginate')
+  async paginatedPublication(@Body() data: PublicationPagenatedDto) {
+    return this.publicationService.getPaginatedPublications(data.page, data.limit);
+  }
+
   @ApiBody({
     type: PublicationDto,
     description: "Insert publication",
