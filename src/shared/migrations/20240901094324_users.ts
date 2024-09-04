@@ -6,7 +6,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('email');
         table.string('full_name');
         table.string('password');
-        table.boolean('is_verified');
+        table.boolean('is_verified').defaultTo(false);
         table.timestamp('created_at').defaultTo(knex.fn.now());
         table.timestamp('updated_at').defaultTo(knex.fn.now());
         table.timestamp('deleted_at').nullable();
