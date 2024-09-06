@@ -31,6 +31,3 @@ COPY  /knexfile.js.map ./
 
 # Expose the application port
 EXPOSE 3002
-
-# Run the application
-CMD ["node", "dist/main.js"]

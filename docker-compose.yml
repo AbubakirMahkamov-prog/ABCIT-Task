@@ -9,7 +9,7 @@ services:
       - .env
     depends_on:
       - postgres
-    command: ["sh", "-c", "npm run migrate:run"]
+    command: ["sh", "-c", "npm run migrate:run && npm run start:prod"]
   postgres:
     container_name: postgres_db
     image: postgres:15-alpine
@@ -19,7 +19,7 @@ services:
       POSTGRES_PASSWORD: ${PGPASSWORD}
       POSTGRES_DB: ${PGDATABASE}
     ports:
-      - '${PGPORT}:${PGPORT}'
+      - '5434:${PGPORT}'
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
