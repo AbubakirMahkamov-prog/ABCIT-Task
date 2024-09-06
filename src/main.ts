@@ -15,8 +15,6 @@ async function bootstrap() {
     bufferLogs: true,
     cors: true,
   });
-  console.log(process.env.PGPORT, "PGPORT")
-  console.log(process.env.PG, "PGUSER")
   app.use(helmet())
   const swaggerDocName = 'ABCIT-Task-api-documentation';
   app.setGlobalPrefix('api');
