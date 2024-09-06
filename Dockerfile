@@ -26,6 +26,8 @@ RUN npm install --only=production
 
 # Copy the build output
 COPY --from=builder /app/dist ./dist
+COPY  /knexfile.js ./
+COPY  /knexfile.js.map ./
 
 # Expose the application port
 EXPOSE 3002
