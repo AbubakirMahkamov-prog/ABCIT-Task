@@ -2,11 +2,13 @@ import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedExceptio
 import { JwtService } from "@nestjs/jwt";
 import { Reflector } from "@nestjs/core";
 import { PleaseVerify } from '../error/user-exception'
+import { KnexService } from "../providers/knex.service";
 
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
   @Inject() private readonly jwtService: JwtService;
   @Inject() private readonly reflector: Reflector;
+  @Inject() private readonly knexService: KnexService;
   private readonly publicForUnverfied = ['/toogle-like', '/comment', '/edit-user'];
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -31,7 +33,9 @@ export class AuthorizationGuard implements CanActivate {
       throw new UnauthorizedException();
     }
     request.currentUser = decoded_token;
-    if (!this.publicForUnverfied.includes(routeName) && !decoded_token.is_verified) {
+    const knex = this.knexService.instance;
+    const user = await knex.select('*').from('users').where('id', request.currentUser.id).first();
+    if (!this.publicForUnverfied.includes(routeName) && !user.is_verified) {
       throw new PleaseVerify();
     }
     return true;

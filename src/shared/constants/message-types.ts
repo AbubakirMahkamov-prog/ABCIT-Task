@@ -11,7 +11,10 @@ export const confirmationMessage  = (confirmationLink:string):string => `
             </div>
           `;
 
+
 export const confirmationSubject = "Please, confirm your account."
+
+export const sendConfirm = `Confirmation link sent to your email, Please confirm your email!`;
 
 export const successMessage = `
 <!DOCTYPE html>

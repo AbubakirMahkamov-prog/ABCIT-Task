@@ -10,6 +10,23 @@ import { RecordBelongsToOthers } from '../shared/error/user-exception'
 export class PublicationService {
   constructor(private readonly publicationRepo: PublicationRepo) {}
   
+  async getByUserPaginatedPub(page = 1, limit = 10) {
+    const data = await this.publicationRepo.getByUserPaginated(page, limit);
+    const total = await this.publicationRepo.getTotalCountUser();
+    const totalPages = Math.ceil(total.count / limit);
+
+    return {
+      data: data,
+      pagination: {
+        page,
+        limit,
+        totalPages,
+        totalPublications: parseInt(total.count),
+      }
+    }
+    
+  }
+
   async getPaginatedPublications(page = 1, limit = 10) {
     const publications = await this.publicationRepo.getPaginatedPosts(page, limit);
     const total = await this.publicationRepo.getTotalCount();
@@ -57,8 +74,15 @@ export class PublicationService {
 
     async toogleLike(data: { publication_id: string }, request: any) {
         const currentUser = request.currentUser;
+        const publication = await this.getByIdPublication(data.publication_id)
+
+        if (publication.user_id === currentUser.id) {
+          throw new HttpException("You cannot like your own publication!", 400)
+        }
+
         const like = await this.publicationRepo.getLike({ publication_id: data.publication_id, user_id: currentUser.id });
         if (!like || like.length == 0) {
+            
             try {
               await this.publicationRepo.addLike({ publication_id: data.publication_id, user_id: currentUser.id });
               return {

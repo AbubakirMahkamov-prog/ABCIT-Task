@@ -14,7 +14,17 @@ import type {
 @Controller("publication")
 export class PublicationController {
   constructor(private readonly publicationService: PublicationService) {}
-  
+
+  @ApiBody({
+    type: PublicationPagenatedDto,
+    description: "Publication by User as paginated"
+  })
+  @UseGuards(AuthorizationGuard)
+  @Post('/paginate-by-user')
+  async byUser(@Body() data: PublicationPagenatedDto) {
+    return this.publicationService.getByUserPaginatedPub(data.page, data.limit)
+  }
+
   @ApiBody({
     type: PublicationPagenatedDto,
     description: "Publication as paginated"

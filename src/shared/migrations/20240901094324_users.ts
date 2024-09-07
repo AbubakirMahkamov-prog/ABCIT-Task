@@ -3,7 +3,7 @@ import type { Knex } from "knex";
 export async function up(knex: Knex): Promise<void> {
 	return knex.schema.createTable("users", function (table) {
 		table.string("id").primary();
-        table.string('email');
+        table.string('email').unique().notNullable();
         table.string('full_name');
         table.string('password');
         table.boolean('is_verified').defaultTo(false);

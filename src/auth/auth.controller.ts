@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpException, Param, UseGuards, Post, Patch,Req
 import { AuthService } from "./auth.service";
 import { ApiBody, ApiTags } from "@nestjs/swagger";
 import { AuthDto, RegisterDto } from "./dto";
-import { successMessage } from '../shared/constants/message-types'
+import { successMessage, sendConfirm } from '../shared/constants/message-types'
 
 import { AuthorizationGuard } from '../shared/guards/authorization.guard'
 import { RouteName } from '../shared/guards/specialRoute';
@@ -27,7 +27,12 @@ export class AuthController {
   })
   @Post("register")
   async registerUser(@Body() data: RegisterDto) {
-    return this.authService.registerUser(data);
+    await this.authService.registerUser(data);
+    return {
+      status: 200,
+      message: sendConfirm,
+      data: []
+    }
   }
 
   @Get("confirm-user-email/:id")
