@@ -1,9 +1,11 @@
-import { Body, Controller, Get, HttpException, Param, Post, Redirect } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, Param, UseGuards, Post, Patch,Req, Redirect } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { ApiBody, ApiTags } from "@nestjs/swagger";
 import { AuthDto, RegisterDto } from "./dto";
 import { successMessage } from '../shared/constants/message-types'
 
+import { AuthorizationGuard } from '../shared/guards/authorization.guard'
+import { RouteName } from '../shared/guards/specialRoute';
 
 @ApiTags("Auth")
 @Controller("auth")
@@ -15,7 +17,7 @@ export class AuthController {
     description: "login",
   })
   @Post("login")
-  async loginUser(@Body() data: any) {
+  async loginUser(@Body() data: AuthDto) {
       return await this.authService.loginUser(data);
   }
 
@@ -24,7 +26,7 @@ export class AuthController {
     description: "registration",
   })
   @Post("register")
-  async registerUser(@Body() data: any) {
+  async registerUser(@Body() data: RegisterDto) {
     return this.authService.registerUser(data);
   }
 
@@ -32,5 +34,15 @@ export class AuthController {
   async confirmUserEmail(@Param("id") id: string){
     await this.authService.confirmUserEmail(id);
     return successMessage;
+  }
+  @ApiBody({
+    type: RegisterDto,
+    description: "Edit user",
+  })
+  @UseGuards(AuthorizationGuard)
+  @RouteName('/edit-user')
+  @Patch('/edit-user')
+  async editUser(@Body() data: RegisterDto, @Req() request: Request) {
+    return this.authService.editUser(data, request);
   }
 }

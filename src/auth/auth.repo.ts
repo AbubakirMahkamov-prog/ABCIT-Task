@@ -8,7 +8,7 @@ import { UserNotFoundException } from "../shared/error/user-exception";
 export class AuthRepo extends BaseRepo<any> {
 
   constructor() {
-    super("auth");
+    super("users");
   }
   async getUserByEmail(email: string) {
     try {
@@ -58,7 +58,7 @@ export class AuthRepo extends BaseRepo<any> {
       }
       return trx.update(data)
         .from("users")
-        .where("id", _id);
+        .where("id", _id).returning('*');
 
     }).then(data => data)
 

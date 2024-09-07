@@ -7,7 +7,7 @@ import { PleaseVerify } from '../error/user-exception'
 export class AuthorizationGuard implements CanActivate {
   @Inject() private readonly jwtService: JwtService;
   @Inject() private readonly reflector: Reflector;
-  private readonly publicForUnverfied = ['/toogle-like'];
+  private readonly publicForUnverfied = ['/toogle-like', '/comment', '/edit-user'];
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const routeName = this.reflector.get<string>('routeName', context.getHandler());

@@ -56,6 +56,7 @@ export class PublicationController {
     description: "Add comment",
   })
   @UseGuards(AuthorizationGuard)
+  @RouteName('/comment')
   @Post("/comment")
   async addComment(@Body() data: CommentDto, @Req() request: Request) {
     return await this.publicationService.addComment(data, request);

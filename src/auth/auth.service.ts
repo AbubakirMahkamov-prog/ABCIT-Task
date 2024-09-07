@@ -35,6 +35,10 @@ export class AuthService {
       return this.generateToken(user);
   }
 
+  async editUser(data: RegisterDto, request: any) {
+    const currentUser = request.currentUser;
+    return this.authRepo.updateUserById(currentUser.id, data);
+  }
 
   async generateToken(user:object){
    const access_token = await this.jwtService.signAsync({
